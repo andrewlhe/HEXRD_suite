@@ -1,0 +1,28 @@
+beam:
+  energy: 55.618
+  vector: {azimuth: 90.0, polar_angle: 90.0}
+calibration_crystal:
+  grain_id: 0
+  inv_stretch: [1.0, 1.0, 1.0, 0.0, 0.0, 0.0]
+  orientation: [0.0, 0.0, 0.0]
+  position: [0.0, 0.0, 0.0]
+detectors:
+  FF1:
+    pixels:
+      columns: 3889
+      rows: 3073
+      size: [0.0748, 0.0748]
+    transform:
+      t_vec_d: [-1.2723382297234902, -145.73706233208588, -750.252726556939]
+      tilt_angles: [0.08121688024181242, -0.2858118474385153, 0.0]
+  FF2:
+    pixels:
+      columns: 3889
+      rows: 3073
+      size: [0.0748, 0.0748]
+    transform:
+      t_vec_d: [-0.15844550905208815, 97.0353757381285, -750.5407457369603]
+      tilt_angles: [0.13729395143937964, 0.24984324509850814, 0.0]
+oscillation_stage:
+  chi: 0.0
+  t_vec_s: [0.0, 0.0, 0.0]
