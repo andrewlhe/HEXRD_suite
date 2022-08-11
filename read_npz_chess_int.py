@@ -35,7 +35,7 @@ def read_npz(data_path):
 
 
 def main(): 
-    read_npz(r'Y:\CHESS\ID3A_2021-2\Lineout\\')
+    read_npz(r'Y:\CHESS\ID3A_2022-2\test\\')
 
 if __name__ == "__main__":
     main()
