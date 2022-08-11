@@ -151,9 +151,9 @@ def process_file_tialphatib(input_directory_path, input_file_name, output_direct
     sigma_data.append(sigma_row)
     gamma_data.append(gamma_row)
 
-    for type, data in list(zip(["amplitude.csv", "center.csv", "sigma.csv", "gamma.csv"], [amplitude_data, center_data, sigma_data, gamma_data])):
+    for type, data in list(zip(["amplitude", "center", "sigma", "gamma"], [amplitude_data, center_data, sigma_data, gamma_data])):
         dot_index = input_file_name.rindex(".")
-        output_file_name = input_file_name[:dot_index] + "_" + type
+        output_file_name = input_file_name[:dot_index] + "_" + type + ".csv"
         output_file_path = os.path.join(output_directory_path, type)
         save_csv(output_file_path, output_file_name, header_row, data)
 

@@ -30,7 +30,7 @@ def read_npz(data_path, save_path):
         tth_dat = np.array([data['tth_centers']])
         int_dat = np.array([data['intensity_1d']])
         dat = np.concatenate((tth_dat.T, int_dat.T), axis=1)
-        print(dat)
+        # print(dat)
         save_csv(save_path, input_file_name, dat)
 
 
