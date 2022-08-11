@@ -101,8 +101,8 @@ def process_row_tialphatib(row):
 
     # # Peaks to fit: TiB (200) TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models
     centers = [4.186, 6.531, 6.862, 4.978, 5.43, 9.6]
-    lower_bounds = centers - 0.2
-    upper_bounds = centers + 0.2
+    lower_bounds = [578, 1822, 1998, 998, 1239, 3453]
+    upper_bounds = [791, 2035, 2211, 1210, 1451, 3666]
 
     types = ['VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel',
              'VoigtModel']
@@ -118,8 +118,8 @@ def process_row_tialphatib(row):
     gamma_row = []
 
     for lower_bound, upper_bound, model_type, center, height, sigma, gamma in list(zip(lower_bounds, upper_bounds, types, centers, heights, sigmas, gammas)):
-        x = np.array(range(lower_bound, upper_bound))
-        y = np.array(row[lower_bound:upper_bound])
+        x = row.iloc[lower_bound:upper_bound, 0].to_numpy()
+        y = row.iloc[lower_bound:upper_bound, 1].to_numpy()
         spec = make_spec_voigt(x, y, model_type, center,
                                height, sigma, gamma, center_min, center_max)
         best_values = process_spec(spec)
@@ -135,8 +135,7 @@ def process_file_tialphatib(input_directory_path, input_file_name, output_direct
     # Function to set peaks' locations and other parameters
     # for use with Ti-alpha-TiB
 
-    header_row = ["CrC (420)", "CrC (422)", "Ni (111)/Crc(511)", "CrC (440)",
-               "CrC (531)", "Ni (200)", "Ni (220)", "Ni (311)", "Ni (222)"]
+    header_row = ['TiB (200)', 'TiB (211)', 'TiB (301)', 'Ti-a (100)', 'Ti-a (002)', 'Ti-a (103)']
     amplitude_data = []
     center_data = []
     sigma_data = []
@@ -152,15 +151,18 @@ def process_file_tialphatib(input_directory_path, input_file_name, output_direct
     sigma_data.append(sigma_row)
     gamma_data.append(gamma_row)
 
-    for name, data in list(zip(["amplitude.csv", "center.csv", "sigma.csv", "gamma.csv"], [amplitude_data, center_data, sigma_data, gamma_data])):
+    for type, data in list(zip(["amplitude.csv", "center.csv", "sigma.csv", "gamma.csv"], [amplitude_data, center_data, sigma_data, gamma_data])):
         dot_index = input_file_name.rindex(".")
-        output_file_name = input_file_name[:dot_index] + "_" + name
-        output_file_path = os.path.join(
-            output_directory_path, output_file_name)
-        save_csv(output_file_path, header_row, data)
+        output_file_name = input_file_name[:dot_index] + "_" + type
+        output_file_path = os.path.join(output_directory_path, type)
+        save_csv(output_file_path, output_file_name, header_row, data)
 
-def save_csv(csv_file_path, headers, data):
-    with open(csv_file_path, "w", newline="") as output_file:
+def save_csv(csv_file_path, csv_file_name, headers, data):
+
+    if not os.path.exists(csv_file_path):
+        os.mkdir(csv_file_path)
+    csv_file = os.path.join(csv_file_path, csv_file_name)
+    with open(csv_file, "w", newline="") as output_file:
         csv_writer = csv.writer(output_file)
         csv_writer.writerow(headers)
         csv_writer.writerows(data)
@@ -172,8 +174,8 @@ def main():  # for 2022-2-ID3A testing
 
     # Import Data & set output directory
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\test"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\test"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\ti-tib-1-eta-090"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\ti-tib-1-eta-090\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -181,7 +183,6 @@ def main():  # for 2022-2-ID3A testing
     for input_file_name in input_file_names:
         process_file_tialphatib(input_directory_path, input_file_name,
                      output_directory_path)
-
 
 if __name__ == "__main__":
     main()
