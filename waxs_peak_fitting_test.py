@@ -1,6 +1,5 @@
 import csv
 import os
-import math
 import random
 
 import numpy as np
@@ -96,7 +95,7 @@ def print_best_values(spec, output):
         # print()
 
 
-def process_row_tialphatib(row): 
+def process_row_tialphatib(row):
     # Function to process each row of data for Ti-alpha-TiB samples
 
     # # Peaks to fit: TiB (200) TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models
@@ -106,7 +105,7 @@ def process_row_tialphatib(row):
 
     types = ['VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel',
              'VoigtModel']
-    heights = [20000, 20000, 20000, 200000, 200000, 200000]
+    heights = [100000, 100000, 100000, 200000, 100000, 200000]
     sigmas = [1, 1, 1, 1, 1, 1]
     gammas = [1, 1, 1, 1, 1, 1]
     center_min = []
@@ -131,11 +130,13 @@ def process_row_tialphatib(row):
 
     return amplitude_row, center_row, sigma_row, gamma_row
 
+
 def process_file_tialphatib(input_directory_path, input_file_name, output_directory_path):
     # Function to set peaks' locations and other parameters
     # for use with Ti-alpha-TiB
 
-    header_row = ['TiB (200)', 'TiB (211)', 'TiB (301)', 'Ti-a (100)', 'Ti-a (002)', 'Ti-a (103)']
+    header_row = ['TiB (200)', 'TiB (211)', 'TiB (301)',
+                  'Ti-a (100)', 'Ti-a (002)', 'Ti-a (103)']
     amplitude_data = []
     center_data = []
     sigma_data = []
@@ -145,7 +146,8 @@ def process_file_tialphatib(input_directory_path, input_file_name, output_direct
 
     df = pd.read_csv(input_file_path, header=None)
 
-    amplitude_row, center_row, sigma_row, gamma_row = process_row_tialphatib(df)
+    amplitude_row, center_row, sigma_row, gamma_row = process_row_tialphatib(
+        df)
     amplitude_data.append(amplitude_row)
     center_data.append(center_row)
     sigma_data.append(sigma_row)
@@ -157,6 +159,7 @@ def process_file_tialphatib(input_directory_path, input_file_name, output_direct
         output_file_path = os.path.join(output_directory_path, type)
         save_csv(output_file_path, output_file_name, header_row, data)
 
+
 def save_csv(csv_file_path, csv_file_name, headers, data):
 
     if not os.path.exists(csv_file_path):
@@ -167,6 +170,7 @@ def save_csv(csv_file_path, csv_file_name, headers, data):
         csv_writer.writerow(headers)
         csv_writer.writerows(data)
 
+
 def main():  # for 2022-2-ID3A testing
 
     # Location to save images (if selected)
@@ -174,20 +178,21 @@ def main():  # for 2022-2-ID3A testing
 
     # Import Data & set output directory
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\ti-tib-1-eta-090"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\ti-tib-1-eta-090\results"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
 
     for input_file_name in input_file_names:
         process_file_tialphatib(input_directory_path, input_file_name,
-                     output_directory_path)
+                                output_directory_path)
+
 
 if __name__ == "__main__":
     main()
 
-# def process_row_nicrc(row): 
+# def process_row_nicrc(row):
 #     # Function to process each row of data for Ni-CrC samples
 #     # # Peaks to fit: CrC (420) CrC (422) Ni (111)/Crc(511), CrC (440) CrC (531) Ni (200)，Ni (220), Ni (311) Ni (222) fitting using Voigt models
 #     # centers = [895, 1029, 1130, 1272, 1355, 1390, 2194, 2669, 2812] # He HT AX Specific

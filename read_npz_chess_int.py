@@ -1,9 +1,6 @@
 import numpy as np
 import csv
 import os
-import math
-import random
-import matplotlib.pyplot as plt
 
 
 def save_csv(save_file_path, current_file_name, data):
@@ -34,8 +31,10 @@ def read_npz(data_path, save_path):
         save_csv(save_path, input_file_name, dat)
 
 
-def main(): 
-    read_npz(r'Y:\CHESS\ID3A_2022-2\ti-tib-1\\', r'Y:\CHESS\ID3A_2022-2\ti-tib-1-eta-090\\' )
+def main():
+    read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2\\',
+             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\\')
+
 
 if __name__ == "__main__":
     main()
