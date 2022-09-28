@@ -19,7 +19,7 @@ def read_npz(data_path, save_path):
 
     npz_file_path = data_path
     input_file_names = [f for f in os.listdir(npz_file_path) if (
-        os.path.isfile(os.path.join(npz_file_path, f)) and f.endswith("000.npz"))]
+        os.path.isfile(os.path.join(npz_file_path, f)) and f.endswith("090.npz"))]
 
     for input_file_name in input_file_names:
         input_file_path = os.path.join(npz_file_path, input_file_name)
@@ -45,17 +45,17 @@ def read_npz(data_path, save_path):
 
 def main():
     read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000\\')
+             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-090\\')
     read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000\\')
+             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\\')
     read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000\\')
+             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-090\\')
     read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-000\\')
+             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-090\\')
     read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-000\\')
+             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-090\\')
     read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-000\\')
+             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090\\')
 
 if __name__ == "__main__":
     main()

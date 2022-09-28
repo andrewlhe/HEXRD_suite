@@ -99,9 +99,9 @@ def process_row_tialphatib(row):
     # Function to process each row of data for Ti-alpha-TiB samples
 
     # # Peaks to fit: TiB (200) TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models
-    centers = [4.186, 6.531, 6.862, 4.978, 5.43, 9.6]
-    lower_bounds = [578, 1822, 1998, 998, 1239, 3453]
-    upper_bounds = [791, 2035, 2211, 1210, 1451, 3666]
+    centers = [4.165, 6.530, 6.850, 4.974, 5.428, 9.565]
+    lower_bounds = [578, 1822, 1998, 980, 1239, 3453]
+    upper_bounds = [791, 2035, 2211, 1260, 1451, 3666]
 
     types = ['VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel',
              'VoigtModel']
@@ -177,9 +177,28 @@ def main():  # for 2022-2-ID3A testing
     image_dir = "C:/Users/helew/Documents/Fitting"
 
     # Import Data & set output directory
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000\results"
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090\results"
+    input_file_names = [f for f in os.listdir(input_directory_path) if (
+        os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
+
+    for input_file_name in input_file_names:
+        process_file_tialphatib(input_directory_path, input_file_name,
+                                output_directory_path)
+
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000\results"
+
+    input_file_names = [f for f in os.listdir(input_directory_path) if (
+        os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
+
+    for input_file_name in input_file_names:
+        process_file_tialphatib(input_directory_path, input_file_name,
+                                output_directory_path)
+
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
