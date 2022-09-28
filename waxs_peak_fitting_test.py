@@ -178,8 +178,8 @@ def main():  # for 2022-2-ID3A testing
 
     # Import Data & set output directory
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\results"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]

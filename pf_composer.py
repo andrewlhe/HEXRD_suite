@@ -13,8 +13,8 @@ def save_csv(csv_file_path, headers, data):
         csv_writer.writerows(data)
 
 
-input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\results\center"
-no_scans = 24
+input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090\results\center"
+no_scans = 13
 
 only_csv_files = [f for f in os.listdir(input_path) if
                   (os.path.isfile(os.path.join(input_path, f)) and f.endswith(".csv"))]
