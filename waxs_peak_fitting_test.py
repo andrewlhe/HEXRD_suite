@@ -98,10 +98,20 @@ def print_best_values(spec, output):
 def process_row_tialphatib(row):
     # Function to process each row of data for Ti-alpha-TiB samples
 
-    # # Peaks to fit: TiB (200) TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models
-    centers = [4.165, 6.530, 6.850, 4.974, 5.428, 9.565]
-    lower_bounds = [578, 1822, 1998, 980, 1239, 3453]
-    upper_bounds = [791, 2035, 2211, 1260, 1451, 3666]
+    # # Peaks to fit: TiB (200) TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models - Transverse Parameters
+    # centers = [4.165, 6.530, 6.850, 4.974, 5.428, 9.565]
+    # lower_bounds = [578, 1822, 1998, 980, 1239, 3453]
+    # upper_bounds = [791, 2035, 2211, 1260, 1451, 3666]
+
+    # # Peaks to fit: TiB (200)*** TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models - Axial Parameters
+    # centers = [4.20, 6.540, 6.868, 5.000, 5.466, 9.633]
+    # lower_bounds = [578, 1822, 1998, 980, 1220, 3450]
+    # upper_bounds = [800, 2035, 2211, 1260, 1451, 3700]
+
+    # # Peaks to fit: TiB (101) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) Ti-B (200) fitting using Voigt models - Axial Parameters
+    centers = [3.473, 6.868, 5.000, 5.466, 9.633, 7.900]
+    lower_bounds = [250, 1998, 980, 1220, 3450, 2539]
+    upper_bounds = [357, 2211, 1260, 1451, 3700, 2740]
 
     types = ['VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel',
              'VoigtModel']
@@ -133,10 +143,14 @@ def process_row_tialphatib(row):
 
 def process_file_tialphatib(input_directory_path, input_file_name, output_directory_path):
     # Function to set peaks' locations and other parameters
-    # for use with Ti-alpha-TiB
 
+    # for use with Ti-alpha-TiB
     header_row = ['TiB (200)', 'TiB (211)', 'TiB (301)',
                   'Ti-a (100)', 'Ti-a (002)', 'Ti-a (103)']
+
+    # for use with Ti-alpha/beta-TiB
+    header_row = ['TiB (101)', 'TiB (301)', 'Ti-a (100)',
+                  'Ti-a (002)', 'Ti-a (103)', 'Ti-b (200)']
     amplitude_data = []
     center_data = []
     sigma_data = []
@@ -176,9 +190,42 @@ def main():  # for 2022-2-ID3A testing
     # Location to save images (if selected)
     image_dir = "C:/Users/helew/Documents/Fitting"
 
-    # Import Data & set output directory
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000\results"
+    # # Import Data & set output directory
+
+    ## Single phase Ti
+    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-090"
+    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-090\results"
+
+    # input_file_names = [f for f in os.listdir(input_directory_path) if (
+    #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
+
+    # for input_file_name in input_file_names:
+    #     process_file_tialphatib(input_directory_path, input_file_name,
+    #                             output_directory_path)
+
+    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090"
+    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\results"
+
+    # input_file_names = [f for f in os.listdir(input_directory_path) if (
+    #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
+
+    # for input_file_name in input_file_names:
+    #     process_file_tialphatib(input_directory_path, input_file_name,
+    #                             output_directory_path)
+
+    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-090"
+    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-090\results"
+
+    # input_file_names = [f for f in os.listdir(input_directory_path) if (
+    #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
+
+    # for input_file_name in input_file_names:
+    #     process_file_tialphatib(input_directory_path, input_file_name,
+    #                             output_directory_path)
+
+    ## Dual phase Ti
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-090"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-090\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -187,8 +234,8 @@ def main():  # for 2022-2-ID3A testing
         process_file_tialphatib(input_directory_path, input_file_name,
                                 output_directory_path)
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000\results"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-090"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-090\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -197,8 +244,8 @@ def main():  # for 2022-2-ID3A testing
         process_file_tialphatib(input_directory_path, input_file_name,
                                 output_directory_path)
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000\results"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -212,6 +259,7 @@ if __name__ == "__main__":
     main()
 
 # def process_row_nicrc(row):
+
 #     # Function to process each row of data for Ni-CrC samples
 #     # # Peaks to fit: CrC (420) CrC (422) Ni (111)/Crc(511), CrC (440) CrC (531) Ni (200)，Ni (220), Ni (311) Ni (222) fitting using Voigt models
 #     # centers = [895, 1029, 1130, 1272, 1355, 1390, 2194, 2669, 2812] # He HT AX Specific
