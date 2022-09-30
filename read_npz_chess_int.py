@@ -25,13 +25,15 @@ def read_npz(data_path, save_path):
         input_file_path = os.path.join(npz_file_path, input_file_name)
         data = np.load(input_file_path)
         tth_dat = np.array([data['tth_centers']])
-        # int_dat = np.array([data['intensity_1d']])
-        # dat = np.concatenate((tth_dat.T, int_dat.T), axis=1)
-        # print(dat)
-        # save_csv(save_path, input_file_name, dat)
-    
+        int_dat = np.array([data['intensity_1d']])
+        dat = np.concatenate((tth_dat.T, int_dat.T), axis=1)
+        print(dat)
+        save_csv(save_path, input_file_name, dat)
+
+    # Fitting Aid
     length = np.size(tth_dat)
     fitting_aid = np.zeros((1, length))
+
     for input_file_name in input_file_names:
         input_file_path = os.path.join(npz_file_path, input_file_name)
         data = np.load(input_file_path)
@@ -44,18 +46,18 @@ def read_npz(data_path, save_path):
 
 
 def main():
-    read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-090\\')
-    read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\\')
-    read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-090\\')
-    read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-090\\')
-    read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-090\\')
-    read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v\\',
-             r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090\\')
+    read_npz(r'Z:\CHESS\ID3A_2022-2\lineouts\ti-tib-1\\',
+             r'Z:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-090-1\\')
+    # read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2\\',
+    #          r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\\')
+    # read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b\\',
+    #          r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-090\\')
+    # read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3\\',
+    #          r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-090\\')
+    # read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p\\',
+    #          r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-090\\')
+    # read_npz(r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v\\',
+    #          r'Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090\\')
 
 if __name__ == "__main__":
     main()
