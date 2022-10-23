@@ -193,8 +193,8 @@ def main():  # for 2022-2-ID3A testing
     # # Import Data & set output directory
 
     ## Single phase Ti
-    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-090"
-    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-090\results"
+    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000"
+    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000\results"
 
     # input_file_names = [f for f in os.listdir(input_directory_path) if (
     #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -203,8 +203,8 @@ def main():  # for 2022-2-ID3A testing
     #     process_file_tialphatib(input_directory_path, input_file_name,
     #                             output_directory_path)
 
-    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090"
-    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\results"
+    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000"
+    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000\results"
 
     # input_file_names = [f for f in os.listdir(input_directory_path) if (
     #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -213,8 +213,8 @@ def main():  # for 2022-2-ID3A testing
     #     process_file_tialphatib(input_directory_path, input_file_name,
     #                             output_directory_path)
 
-    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-090"
-    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-090\results"
+    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000"
+    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000\results"
 
     # input_file_names = [f for f in os.listdir(input_directory_path) if (
     #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -224,8 +224,8 @@ def main():  # for 2022-2-ID3A testing
     #                             output_directory_path)
 
     ## Dual phase Ti
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-090"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-090\results"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-000"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-000\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -234,8 +234,8 @@ def main():  # for 2022-2-ID3A testing
         process_file_tialphatib(input_directory_path, input_file_name,
                                 output_directory_path)
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-090"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-090\results"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-000"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-000\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -244,8 +244,8 @@ def main():  # for 2022-2-ID3A testing
         process_file_tialphatib(input_directory_path, input_file_name,
                                 output_directory_path)
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090\results"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-000"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-000\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]

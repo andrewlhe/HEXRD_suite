@@ -71,22 +71,22 @@ def compose_strains(input_path, no_scans):
 
 
 def main():
-    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-090\results\center"
+    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000\results\center"
     no_scans = 36
     compose_strains(input_path, no_scans)
-    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-090\results\center"
+    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000\results\center"
     no_scans = 24
     compose_strains(input_path, no_scans)
-    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-090\results\center"
+    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000\results\center"
     no_scans = 27
     compose_strains(input_path, no_scans)
-    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-090\results\center"
+    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-000\results\center"
     no_scans = 15 
     compose_strains(input_path, no_scans)
-    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-090\results\center"
+    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-000\results\center"
     no_scans = 38
     compose_strains(input_path, no_scans)
-    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-090\results\center"
+    input_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-000\results\center"
     no_scans = 13
     compose_strains(input_path, no_scans)
 
