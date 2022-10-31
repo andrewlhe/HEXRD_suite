@@ -9,6 +9,7 @@ from scipy import optimize, signal
 from lmfit import models
 
 DEBUG = False
+K = 0.2 #tth boundary
 
 # Function to generate models
 def generate_model(spec):
@@ -102,19 +103,21 @@ def process_row_tialphatib(row):
     # # for Ti-alpha-TiB samples
     # # Peaks to fit: TiB (200)*** TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models - Axial Parameters
     centers = [4.20, 6.540, 6.868, 5.000, 5.466, 9.633]
-    lower_bounds = [3.98, 6.340, 6.668, 4.800, 5.266, 9.433]
-    upper_bounds = [4.40, 6.740, 7.068, 5.200, 5.666, 9.833]
+    lower_bounds = [x - K for x in centers]
+    upper_bounds = [x + K for x in centers]
 
     # # Peaks to fit: TiB (200) TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models - Transverse Parameters
     # centers = [4.165, 6.530, 6.850, 4.974, 5.428, 9.565]
-    # lower_bounds = [578, 1822, 1998, 980, 1239, 3453]
-    # upper_bounds = [791, 2035, 2211, 1260, 1451, 3666]
+    # lower_bounds = [x - K for x in centers]
+    # upper_bounds = [x + K for x in centers]
+
 
     # # for Ti-alpha-Ti-beta-TiB samples
     # # Peaks to fit: TiB (101) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) Ti-b (200) fitting using Voigt models - Axial Parameters
     # centers = [3.473, 6.868, 5.000, 5.466, 9.633, 7.900]
-    # lower_bounds = [250, 1998, 980, 1220, 3450, 2539]
-    # upper_bounds = [357, 2211, 1260, 1451, 3700, 2740]
+    # lower_bounds = [x - K for x in centers]
+    # upper_bounds = [x + K for x in centers]
+
 
     types = ['VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel',
              'VoigtModel']
