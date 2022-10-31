@@ -8,6 +8,7 @@ from scipy import optimize, signal
 
 from lmfit import models
 
+DEBUG = False
 
 # Function to generate models
 def generate_model(spec):
@@ -67,18 +68,16 @@ def make_spec_voigt(x, y, model_type, center, height, sigma, gamma, center_min, 
         ]
     }
 
+
 # Function to run the fitting (and to provide plots of fittings)
-
-
 def process_spec(spec):
     model, params = generate_model(spec)
     output = model.fit(spec['y'], params, x=spec['x'])
     print_best_values(spec, output)
     return output.best_values
 
+
 # Function to display best values
-
-
 def print_best_values(spec, output):
     model_params = {
         'GaussianModel':   ['amplitude', 'sigma'],
@@ -86,32 +85,36 @@ def print_best_values(spec, output):
         'VoigtModel':      ['amplitude', 'sigma', 'gamma']
     }
     best_values = output.best_values
-    # print('center    model          amplitude     sigma      gamma')
+    if DEBUG:
+        print('center    model          amplitude     sigma      gamma')
     for i, model in enumerate(spec['model']):
         prefix = f'm{i}_'
         values = ', '.join(
             f'{best_values[prefix+param]:8.3f}' for param in model_params[model["type"]])
-        # print(f'[{best_values[prefix+"center"]:3.3f}] {model["type"]:16}: {values}')
-        # print()
+        if DEBUG:
+            print(f'[{best_values[prefix+"center"]:3.3f}] {model["type"]:16}: {values}')
+            print()
 
 
+# Function to process each row of data 
 def process_row_tialphatib(row):
-    # Function to process each row of data for Ti-alpha-TiB samples
+
+    # # for Ti-alpha-TiB samples
+    # # Peaks to fit: TiB (200)*** TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models - Axial Parameters
+    centers = [4.20, 6.540, 6.868, 5.000, 5.466, 9.633]
+    lower_bounds = [3.98, 6.340, 6.668, 4.800, 5.266, 9.433]
+    upper_bounds = [4.40, 6.740, 7.068, 5.200, 5.666, 9.833]
 
     # # Peaks to fit: TiB (200) TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models - Transverse Parameters
     # centers = [4.165, 6.530, 6.850, 4.974, 5.428, 9.565]
     # lower_bounds = [578, 1822, 1998, 980, 1239, 3453]
     # upper_bounds = [791, 2035, 2211, 1260, 1451, 3666]
 
-    # # Peaks to fit: TiB (200)*** TiB (211) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) fitting using Voigt models - Axial Parameters
-    # centers = [4.20, 6.540, 6.868, 5.000, 5.466, 9.633]
-    # lower_bounds = [578, 1822, 1998, 980, 1220, 3450]
-    # upper_bounds = [800, 2035, 2211, 1260, 1451, 3700]
-
-    # # Peaks to fit: TiB (101) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) Ti-B (200) fitting using Voigt models - Axial Parameters
-    centers = [3.473, 6.868, 5.000, 5.466, 9.633, 7.900]
-    lower_bounds = [250, 1998, 980, 1220, 3450, 2539]
-    upper_bounds = [357, 2211, 1260, 1451, 3700, 2740]
+    # # for Ti-alpha-Ti-beta-TiB samples
+    # # Peaks to fit: TiB (101) TiB (301) Ti-a (100) Ti-a (002) Ti-a (103) Ti-b (200) fitting using Voigt models - Axial Parameters
+    # centers = [3.473, 6.868, 5.000, 5.466, 9.633, 7.900]
+    # lower_bounds = [250, 1998, 980, 1220, 3450, 2539]
+    # upper_bounds = [357, 2211, 1260, 1451, 3700, 2740]
 
     types = ['VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel', 'VoigtModel',
              'VoigtModel']
@@ -127,8 +130,14 @@ def process_row_tialphatib(row):
     gamma_row = []
 
     for lower_bound, upper_bound, model_type, center, height, sigma, gamma in list(zip(lower_bounds, upper_bounds, types, centers, heights, sigmas, gammas)):
-        x = row.iloc[lower_bound:upper_bound, 0].to_numpy()
-        y = row.iloc[lower_bound:upper_bound, 1].to_numpy()
+        np_x = row.iloc[:,0].to_numpy()
+        np_y = row.iloc[:,1].to_numpy()
+        difference_array_lower_bound = np.absolute(np_x-lower_bound)
+        difference_array_upper_bound = np.absolute(np_x-upper_bound)
+        lower_bound_index = difference_array_lower_bound.argmin()
+        upper_bound_index = difference_array_upper_bound.argmin()
+        x = np_x[lower_bound_index:upper_bound_index]
+        y = np_y[lower_bound_index:upper_bound_index]
         spec = make_spec_voigt(x, y, model_type, center,
                                height, sigma, gamma, center_min, center_max)
         best_values = process_spec(spec)
@@ -141,16 +150,22 @@ def process_row_tialphatib(row):
     return amplitude_row, center_row, sigma_row, gamma_row
 
 
+# Function to process entire dataset
 def process_file_tialphatib(input_directory_path, input_file_name, output_directory_path):
-    # Function to set peaks' locations and other parameters
+
+    
+    if not os.path.exists(output_directory_path):
+        os.mkdir(output_directory_path)
+
 
     # for use with Ti-alpha-TiB
     header_row = ['TiB (200)', 'TiB (211)', 'TiB (301)',
                   'Ti-a (100)', 'Ti-a (002)', 'Ti-a (103)']
 
-    # for use with Ti-alpha/beta-TiB
-    header_row = ['TiB (101)', 'TiB (301)', 'Ti-a (100)',
-                  'Ti-a (002)', 'Ti-a (103)', 'Ti-b (200)']
+    # # for use with Ti-alpha/beta-TiB
+    # header_row = ['TiB (101)', 'TiB (301)', 'Ti-a (100)',
+    #               'Ti-a (002)', 'Ti-a (103)', 'Ti-b (200)']
+
     amplitude_data = []
     center_data = []
     sigma_data = []
@@ -192,40 +207,9 @@ def main():  # for 2022-2-ID3A testing
 
     # # Import Data & set output directory
 
-    ## Single phase Ti
-    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000"
-    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-000\results"
-
-    # input_file_names = [f for f in os.listdir(input_directory_path) if (
-    #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
-
-    # for input_file_name in input_file_names:
-    #     process_file_tialphatib(input_directory_path, input_file_name,
-    #                             output_directory_path)
-
-    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000"
-    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-000\results"
-
-    # input_file_names = [f for f in os.listdir(input_directory_path) if (
-    #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
-
-    # for input_file_name in input_file_names:
-    #     process_file_tialphatib(input_directory_path, input_file_name,
-    #                             output_directory_path)
-
-    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000"
-    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-000\results"
-
-    # input_file_names = [f for f in os.listdir(input_directory_path) if (
-    #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
-
-    # for input_file_name in input_file_names:
-    #     process_file_tialphatib(input_directory_path, input_file_name,
-    #                             output_directory_path)
-
-    ## Dual phase Ti
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-000"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-000\results"
+    # Single phase Ti
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-all"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-1-eta-all\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -234,8 +218,8 @@ def main():  # for 2022-2-ID3A testing
         process_file_tialphatib(input_directory_path, input_file_name,
                                 output_directory_path)
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-000"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-000\results"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-all"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2-eta-all\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -244,8 +228,8 @@ def main():  # for 2022-2-ID3A testing
         process_file_tialphatib(input_directory_path, input_file_name,
                                 output_directory_path)
 
-    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-000"
-    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-000\results"
+    input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-all"
+    output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-2b-eta-all\results"
 
     input_file_names = [f for f in os.listdir(input_directory_path) if (
         os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
@@ -253,6 +237,37 @@ def main():  # for 2022-2-ID3A testing
     for input_file_name in input_file_names:
         process_file_tialphatib(input_directory_path, input_file_name,
                                 output_directory_path)
+
+    # # Dual phase Ti
+    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-all"
+    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-3-eta-all\results"
+
+    # input_file_names = [f for f in os.listdir(input_directory_path) if (
+    #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
+
+    # for input_file_name in input_file_names:
+    #     process_file_tialphatib(input_directory_path, input_file_name,
+    #                             output_directory_path)
+
+    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-all"
+    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4p-eta-all\results"
+
+    # input_file_names = [f for f in os.listdir(input_directory_path) if (
+    #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
+
+    # for input_file_name in input_file_names:
+    #     process_file_tialphatib(input_directory_path, input_file_name,
+    #                             output_directory_path)
+
+    # input_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-all"
+    # output_directory_path = r"Y:\CHESS\ID3A_2022-2\lineouts\ti-tib-4v-eta-all\results"
+
+    # input_file_names = [f for f in os.listdir(input_directory_path) if (
+    #     os.path.isfile(os.path.join(input_directory_path, f)) and f.endswith(".csv"))]
+
+    # for input_file_name in input_file_names:
+    #     process_file_tialphatib(input_directory_path, input_file_name,
+    #                             output_directory_path)
 
 
 if __name__ == "__main__":
